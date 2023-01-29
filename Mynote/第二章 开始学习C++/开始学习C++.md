@@ -1,3 +1,5 @@
+
+
 # 开始学习c++
 
 ## 进入c++
@@ -108,11 +110,153 @@ int main()
 
 类包含：能够表述什么养的信息 、可对数据进行哪些操作。（数据以及操作数据的方法）  
 
-`类(iostream)->对象(cout、cin)` 就像 `类型(int)->变量(carrots)` 
+`类(iostream)->对象(cout、cin)`  类比于  `类型(int)->变量(carrots)` 
 
 类定义描述的是**数据格式**及其**用法** 对象是类的**具体实例化**
 
+类库等同于函数库，像调用函数一样调用类。
 
 
+## 函数
 
+### 使用有返回值的函数
+
+C++函数分为两种：**有返回值**和**无返回值**
+
+发送给函数的信息叫做**参数**；发送回去的值叫做**返回值**。使用函数之前，C++编译器必须知道函数的**参数类型**和**返回值类型**。
+```cpp
+double sqrt(double);
+//返回类型：double;参数类型：double
+```
+函数原型结尾的`;`表明它是一条语句，是一个原型，而不是一个函数头。
+
+提供原型的方法：
+1. 源代码文件中**输入函数原型**
+2. 包含头文件`cmath`，其中定义了原型
+   
+应在首次使用前提供原型。通常是把原型放到`main()`函数定义的前面。
+```cpp
+#include<iostream>
+#include<cmath>   //包含头文件,定义了函数原型
+
+int main()
+{
+    using namespace std;
+
+    double area;
+    cout << "Enter the floor area, in square feet, of your home: ";
+    cin >> area;
+
+    double side;
+    side = sqrt(area);
+
+    cout << "That's the equivalent of a square " << side << " feet to the side." << endl;
+
+    return 0;
+}
+```
+
+### 函数变体
+
+1. 返回值为多个参数
+```cpp
+double pow(double,double);
+```
+
+2. 函数不接受任何参数
+```cpp
+int rand(void);
+```
+
+3. 函数没有返回值
+```cpp
+void bucks(double);
+```
+
+### 用户定义的无返回值的函数
+
+定义函数`void simon(int n)` 无返回值，需要提供参数。
+
+```cpp
+#include<iostream>
+void simon(int n);      //函数原型声明
+
+int main()
+{
+    using namespace std;
+
+    simon(3);          //函数调用
+    cout << "Pick an integer: ";
+    int count;
+    cin >> count;
+    simon(count);
+    cout << "Done!" << endl;
+
+    return 0;
+}
+
+void simon(int n)      //函数定义
+{
+    using namespace std;
+
+    cout << "Simon sys touch your toes " << n << " times. " << endl;
+}
+```
+
+### 用户定义的有返回值的函数
+
+定义 英石`<->`磅 转化函数`int stonetolb(int sts)`
+
+```cpp
+#include<iostream>
+int stonetolb(int sts);
+
+int main()
+{
+    using namespace std;
+
+    int stone;
+    cout << "Enter the weight in stone: ";
+    cin >> stone;
+
+    int pounds = stonetolb(stone);
+    cout << stone << " stone = "
+         << pounds << " pounds." << endl;
+
+    return 0;
+}
+
+//1 stone = 14 lbs
+int stonetolb(int sts)
+{
+    return 14 * sts;
+}
+```
+
+## 复习题
+![](2023-01-29-16-20-55.png)
+1. 函数
+2. 包含`iostream`头文件，将头文件内容添加到源代码当中
+3. `using`是预编译指令，使用`std`命名空间
+4. `cout << "Hello world!" << endl`
+5. `int cheeses;`
+6. `cheeses = 32;`
+7. `cin >> cheeses;`
+8. `cout >> "We have " >> cheeses >> "varieties of cheses." << endl;`
+9. 函数名的信息
+   1.  函数名是`froop`,一个参数`t`，参数类型是`double`,返回类型是`int`
+   2.  函数名是`rattle`，一个参数`n`，参数类型是`int`，无返回值
+   3.  函数名是`prune`,无参数，返回类型是`int`
+10. 当函数是无返回值的时候，例如：`void rattle(int n)`
+11. 未指出命名空间`std`，解决方法是：
+    1.  全局/局部引用：`using namespace std;`
+    2.  全局/局部引用：`using std::cout;`
+    3.  使用语句前：`std::cout;`
+
+## 编程练习
+
+1. 编写一个C++程序，它显示您的姓名和地址。
+```cpp
+
+```
 
