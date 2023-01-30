@@ -256,7 +256,209 @@ int stonetolb(int sts)
 ## 编程练习
 
 1. 编写一个C++程序，它显示您的姓名和地址。
-```cpp
 
+运行代码：
+```cpp
+#include<iostream>
+using namespace std;
+
+int main(void)
+{
+    cout << "GJT" << endl;
+    cout << "I live in China." << endl;
+
+    return 0;
+}
 ```
+
+2. 编写一个C++程序，它要求用户输入一个以long为单位的距离，然后将它转换为码
+(一long等于220码)。
+
+运行代码：
+```cpp
+#include<iostream>
+using namespace std;
+
+int main(void)
+{
+    double distance;
+
+    cout << "Please input the distance: ";
+    cin >> distance;
+
+    double ma = distance * 220;
+    cout << distance << " long = " << ma << " yard.";
+
+    return 0;
+}
+```
+
+3. 编写一个C++程序，它使用3个用户定义的函数（包括main())，并生成下面的输出:
+
+```cpp
+Three blind mice
+Three blind mice
+see how they run
+see how they run
+```
+运行代码：
+```cpp
+#include<iostream>
+using namespace std;
+void print_mice(void);
+void print_run(void);
+
+int main(void)
+{
+    print_mice();
+    print_mice();
+    print_run();
+    print_run();
+
+    return 0;
+}
+void print_mice(void)
+{
+    cout << "Three blind mice." << endl;
+}
+void print_run(void)
+{
+    cout << "See how they run." << endl;
+}
+```
+
+4. 编写一个程序，让用户输入其年龄，然后显示该年龄包含多少个月，如下所示:
+   
+```cpp
+Enter your age: 29
+Your age in month is 348
+```
+运行代码：
+```cpp
+#include <iostream>
+using namespace std;
+
+int main(void)
+{
+    int age;
+
+    cout << "Please enter your age: ";
+    cin >> age;
+    cout << "Your age in month is " << age * 12 << "." << endl;
+
+    return 0;
+}
+```
+
+5. 编写一个程序，其中的 main()调用一个用户定义的函数（以摄氏温度值为参数，并返回相应的华氏温度值)。该程序按下面的格式要求用户输入摄氏温度值，并显示结果:
+
+```cpp
+Please enter a Celsius value: 20
+20 degrees Celsius is 68 degrees Fahrenheit.
+```
+
+下面是转换公式：
+$$
+华氏温度=1.8\times摄氏温度+32  
+$$
+
+运行代码：
+```cpp
+#include<iostream>
+using namespace std;
+double CeltoFah(double cel);
+
+int main(void)
+{
+    double Cel;
+    
+    cout << "Please enter a Celsius value: ";
+    cin >> Cel;
+
+    double Fah = CeltoFah(Cel);
+    cout << Cel << " degrees Celsius is " << Fah << " degrees Fahrenheit." << endl;
+
+    return 0;
+}
+
+double CeltoFah(double cel)
+{
+    return cel * 1.8 + 32.0;
+}
+```
+
+6. 编写一个程序，其main()调用一个用户定义的函数（以光年值为参数，并返回对应天文单位的值)。该程序按下面的格式要求用户输入光年值，并显示结果:
+
+```cpp
+Enter the number of light years:4.2
+4.2 light years = 265608 astronomical units.
+```
+
+天文单位是从地球到太阳的平均距离（约150000000公里或93000000
+英里)，光年是光一年走的距离
+(约10万亿公里或6万亿英里)(除太阳外，最近的恒星大约离地球4.2光年)。请使用double类型(参见程序清单2.4)，转换公式为:
+
+$$
+1 光年 = 63240 天文单位
+$$
+
+运行代码：
+```cpp
+#include<iostream>
+using namespace std;
+double lttoas(double ly);
+
+int main(void)
+{
+    double ltyear;
+
+    cout << "Enter thr number of light years: ";
+    cin >> ltyear;
+
+    double asun = lttoas(ltyear);
+    cout << ltyear << " light years = " << asun << " astronomical units.";
+
+    return 0;
+}
+
+double lttoas(double ly)
+{
+    return ly * 63240;
+}
+```
+
+7. 编写一个程序，要求用户输入小时数和分钟数。在main()函数中，将这两个值传递给一个void函数，后者以下面这样的格式显示这两个值:
+
+```cpp
+Enter the number of hours: 9
+Enter the number of minutes:28
+Time: 9:28
+```
+
+运行代码：
+```cpp
+#include<iostream>
+using namespace std;
+void Time(int a, int b);
+
+int main(void)
+{
+    int hour,min;
+
+    cout << "Enter the number of hours: ";
+    cin >> hour;
+    cout << "Enter the number of minutes: ";
+    cin >> min;
+
+    Time(hour, min);
+
+    return 0;
+}
+
+void Time(int a, int b)
+{
+    cout << "Time: " << a << ":" << b;
+}
+```
+
 
