@@ -486,10 +486,5 @@ void Time(int a, int b)
     cout << "Time: " << a << ":" << b;
 }
 ```
-输出结果：
-```cpp
-Enter the number of hours: 9
-Enter the number of minutes: 28
-Time: 9:28
-```
+
 
