@@ -1,22 +1,22 @@
 #include<iostream>
 #include<cstring>
 using namespace std;
+const char DONE[] = "done";
 
 int main(void)
 {
     char arr[100];
-    int i = 0;
+    int counter = 0;
 
     cout << "Enter words (to stop, type the word done): " << endl;
-    cin >> arr;
 
-    while(strcmp(arr,"done") != 0)
+    do
     {
-        cin >> arr;
-        i++;
-    }
+        cin >> arr;  //cin会忽略空白符和换行符
+        counter++;
+    } while (strcmp(arr, DONE) != 0);
 
-    cout << "You entered a total of " << i << " words.\n";
+    cout << "You entered a total of " << counter - 1 << " words.\n";
 
     return 0;
 }
