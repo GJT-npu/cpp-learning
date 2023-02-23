@@ -278,12 +278,247 @@ int main(void)
     return 0;
 }
 ```
+
 输出结果：
+
 ```cpp
 1) n = 10
 2) n = 20
 ```
 
-3. `const int *const pt;` pt指针只能指向一个内容，且不能修改指向地址中的内容
+3. `const int *const pt;` pt 指针只能指向一个内容，且不能修改指向地址中的内容
 
+## 函数和二维数组
+
+二位数组传参，数组名表示数组首元素地址
+
+```cpp
+int sum(int (*pt)[4], int size);  //1
+int sum(int pt2[][4], int size);  //2
+
+//引用
+int total = sum(a, 10);
+```
+
+二维数组的元素引用可以写成：
+`ar2[r][c] == *(*(ar2 + r) + c)`
+
+## 函数和 C 风格的字符串
+
+### 将 C 风格字符串作为参数的函数
+
+表示字符串的方法：
+
+1. `char`数组
+2. 用双引号引用起来的字符串常量
+3. 被设置为字符串的地址的`char`指针
+
+```cpp
+#include<iostream>
+using namespace std;
+unsigned int c_in_str(const char *str, char ch);
+
+int main(void)
+{
+    char mmm[15] = "minimum";
+    const char *wail = "ululate";  //字符串常量，定义const指针使指针不能更改地址的内容
+
+    unsigned int ms = c_in_str(mmm, 'm');
+    unsigned int us = c_in_str(wail, 'u');
+
+    cout << ms << " m characters in " << mmm << endl;
+    cout << us << " u characters in " << wail << endl;
+
+    return 0;
+}
+
+unsigned int c_in_str(const char *str, char ch)
+{
+    unsigned int count = 0;
+
+    while (*str)
+    {
+        if(*str == ch)
+            count++;
+
+        str++;
+    }
+
+    return count;
+}
+```
+
+输出结果：
+
+```cpp
+3 m characters in minimum
+2 u characters in ululate
+```
+
+### 返回 C—风格字符串的函数
+
+函数无法返回一个字符串，**但可以返回字符串的地址**，这样效率更高
+
+```cpp
+#include<iostream>
+using namespace std;
+char *buildstr(char ch, int n);
+
+int main(void)
+{
+    char ch;
+    int times;
+
+    cout << "Enter a character: ";
+    cin >> ch;
+    cout << "Enter an integer: ";
+    cin >> times;
+
+    char *ps = buildstr(ch, times);
+    cout << ps << endl;
+    delete[] ps;  //new后释放内存
+
+    return 0;
+}
+char *buildstr(char ch, int n)
+{
+    char *ps = new char[n + 1];
+    ps[n] = '\0';  //字符串结尾使'\0'
+    for (int i = 0; i < n; i++)
+    {
+        ps[i] = ch;
+    }
+
+    return ps;
+}
+```
+
+输出结果：
+
+```cpp
+Enter a character: v
+Enter an integer: 10
+vvvvvvvvvv
+```
+
+## 函数和结构
+
+传递的是结构体的副本
+
+函数也可以返回结构
+
+结构名只是结构体的名称，要获得结构体的地址，需要使用`&`
+
+```cpp
+#include<iostream>
+using namespace std;
+
+const int Min_per_hr = 60;
+
+struct travel_time
+{
+    int hours;
+    int mins;
+};
+
+travel_time sum(travel_time t1, travel_time t2);
+void show_time(travel_time t);
+
+int main(void)
+{
+    travel_time day1 = {5, 45};
+    travel_time day2 = {4, 55};
+
+    travel_time trip = sum(day1, day2);
+    cout << "Two days total: ";
+    show_time(trip);
+
+    travel_time day3 = {4, 32};
+    cout << "Three days total: ";
+    show_time(sum(trip, day3));
+
+    return 0;
+}
+
+travel_time sum(travel_time t1, travel_time t2)
+{
+    travel_time total;
+
+    total.mins = (t1.mins + t2.mins) % Min_per_hr;
+    total.hours = t1.hours + t2.hours + (t1.mins + t2.mins) / Min_per_hr;
+
+    return total;
+}
+void show_time(travel_time t)
+{
+    cout << t.hours << " Hours, " << t.mins << " Minutes.\n";
+}
+```
+输出结果：
+```cpp
+Two days total: 10 Hours, 40 Minutes.  
+Three days total: 15 Hours, 12 Minutes.
+```
+
+## 函数和`string`对象
+
+`string`对象和结构体的使用相似
+
+可以将一个对象赋给另一个对象；可以将对象作为完整的实体进行传递。
+
+如果需要多个字符串，可以声明一个`string`对象数组，而不是一个二维数组
+
+声明一个string对象数组，并将其传递给函数以显示其内容：
+```cpp
+#include<iostream>
+#include<string>
+using namespace std;
+
+const int SIZE = 5;
+
+void display(const string *sa, int n);
+
+int main(void)
+{
+    string list[SIZE];
+
+    cout << "Enter: " << SIZE << " favorite food: " << endl;
+
+    for (int i = 0; i < SIZE; i++)
+    {
+        cout << i + 1 << ": ";
+        getline(cin, list[i]);
+    }
+
+    cout << "Your list: " << endl;
+    display(list, SIZE);
+
+    return 0;
+}
+
+void display(const string *sa, int n)
+{
+    for (int i = 0; i < n; i++)
+    {
+        cout << i + 1 << ": " << sa[i] << endl;
+    }
+}
+```
+输出结果：
+```cpp
+Enter: 5 favorite food: 
+1: milk
+2: cake
+3: icecream
+4: salad
+5: break
+Your list: 
+1: milk    
+2: cake    
+3: icecream
+4: salad
+5: break
+```
+
+## 函数和`array`对象
 
