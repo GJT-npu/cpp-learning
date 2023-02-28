@@ -37,7 +37,7 @@ int main(void)
     //part3
     //pc(pd) is a pointer to the array(pa) of three elements(funstion pointers)
     auto pc = &pa;
-    const double *(*(*pd)[3])(const double *, int) = &pa;
+    const double *(*(*pd)[3])(const double *, int) = &pa;       //数组指针
     cout << endl;
     cout << "********PART3********" << endl;
     cout << "Address         Value" << endl;
