@@ -454,9 +454,11 @@ void show_time(travel_time t)
     cout << t.hours << " Hours, " << t.mins << " Minutes.\n";
 }
 ```
+
 输出结果：
+
 ```cpp
-Two days total: 10 Hours, 40 Minutes.  
+Two days total: 10 Hours, 40 Minutes.
 Three days total: 15 Hours, 12 Minutes.
 ```
 
@@ -464,11 +466,13 @@ Three days total: 15 Hours, 12 Minutes.
 
 `string`对象和结构体的使用相似
 
-可以将一个对象赋给另一个对象；可以将对象作为完整的实体进行传递。
+1. 可以将一个对象赋给另一个对象；
+2. 可以将对象作为完整的实体进行传递。
 
 如果需要多个字符串，可以声明一个`string`对象数组，而不是一个二维数组
 
-声明一个string对象数组，并将其传递给函数以显示其内容：
+声明一个 string 对象数组，并将其传递给函数以显示其内容：
+
 ```cpp
 #include<iostream>
 #include<string>
@@ -504,17 +508,19 @@ void display(const string *sa, int n)
     }
 }
 ```
+
 输出结果：
+
 ```cpp
-Enter: 5 favorite food: 
+Enter: 5 favorite food:
 1: milk
 2: cake
 3: icecream
 4: salad
 5: break
-Your list: 
-1: milk    
-2: cake    
+Your list:
+1: milk
+2: cake
 3: icecream
 4: salad
 5: break
@@ -522,3 +528,316 @@ Your list:
 
 ## 函数和`array`对象
 
+1. 按值传递 传递副本
+2. 传递指向对象的指针，这使得函数可以操作原始对象
+
+## 递归
+
+### 包含一个递归调用的递归
+
+```cpp
+void recurs(argumentlist)
+{
+    statements1
+    if (test)
+        recurs(arguments)
+    statements2
+}
+```
+
+例如：
+
+```cpp
+#include<iostream>
+using namespace std;
+void countdown(int n);
+
+int main(void)
+{
+    countdown(4);
+
+    return 0;
+}
+
+void countdown(int n)
+{
+    //statement1
+    cout << "counting down... " << n << endl;
+
+    //test
+    if (n > 0)
+    {
+        countdown(n-1);
+    }
+
+    //statement2
+    cout << n << ": Kadoom" << endl;
+}
+```
+
+输出结果：
+
+```cpp
+counting down... 4
+counting down... 3
+counting down... 2
+counting down... 1
+counting down... 0
+0: Kadoom
+1: Kadoom
+2: Kadoom
+3: Kadoom
+4: Kadoom
+```
+
+### 包含多个递归调用的递归
+
+```cpp
+#include<iostream>
+using namespace std;
+
+const int Len = 66;
+const int Divs = 6;
+
+void subdivide(char ar[], int low, int high, int levels);
+
+int main(void)
+{
+    char ruler[Len];
+
+    for (int i = 0; i < Len; i++)
+        ruler[i] = ' ';
+
+    int min = 0;
+    int max = Len - 2;
+    ruler[Len - 1] = '\0';
+    ruler[min] = ruler[max] = '|';
+    cout << ruler << endl;  //打印第一行
+
+    for (int i = 1; i <= Divs; i++)
+    {
+        subdivide(ruler, min, max, i);
+        cout << ruler << endl;
+    }
+
+    return 0;
+}
+
+void subdivide(char ar[], int low, int high, int levels)
+{
+    if(levels == 0)
+        return;
+
+    int mid = (low + high) / 2;
+    ar[mid] = '|';
+
+    subdivide(ar, low, mid, levels - 1);
+    subdivide(ar, mid, high, levels - 1);
+}
+```
+
+输出结果：
+
+```cpp
+|                                                               |
+|                               |                               |
+|               |               |               |               |
+|       |       |       |       |       |       |       |       |
+|   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | |
+|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+```
+
+## 函数指针
+
+函数的地址：存储机器语言代码的内存的开始地址。
+
+可以编写另一个函数的地址作为参数的函数。**意味着可以在不同的时间使用不同的函数**
+
+### 函数指针的基础知识
+
+设计一个名为`estimate()`的函数，估算编写指定行数的代码所需要的时间。函数将有一部分是相同的，但该函数允许每个程序员提供自己的算法来估算时间。为实现这种目标，采用的机制是，将程序员要使用的算法函数的地址传递给`estimate()`。为此，它必须可以完成以下功能：
+
+1. 获取函数的地址：
+   
+   **使用函数名，不用带参数**，函数名就是函数的地址 `process(think);`
+
+2. 声明一个函数指针:
+   
+   函数原型：`double pam(int);`
+
+   正确的指针类型：`double (*pf)(int);` 
+   
+   用`(*pf)`替换函数名 **这是一种类型函数的指针 不是某特定类型函数的指针**
+
+   对于`estimste()`：代码行数、估算算法，函数原型是：
+
+   ```cpp
+   void estimate(int lines, double (*pf)(int));
+   ```
+   
+
+3. 使用函数指针来调用函数
+   
+   将(*pf)看作函数名
+
+```cpp
+#include<iostream>
+using namespace std;
+double GJT(int lines);
+double CBC(int lines);
+void estimate(int lines, double (*pf)(int));
+
+int main(void)
+{
+    int code = 0;
+
+    cout << "How many lines code do you need?: ";
+    cin >> code;
+    cout << "Here is GJT's estimate: " << endl;
+    estimate(code, GJT);
+    cout << "Here is CBC's estimate: " << endl;
+    estimate(code, CBC);
+
+    return 0;
+}
+double GJT(int lines)
+{
+    return lines * 0.05;
+}
+double CBC(int lines)
+{
+    return lines * 0.03 + 0.004 * lines * lines;
+}
+void estimate(int lines, double (*pf)(int))
+{
+    cout << lines << " lines code will take " << (*pf)(lines) << " seconds." << endl;
+}
+```
+输出结果：
+```cpp
+How many lines code do you need?: 29
+Here is GJT's estimate:
+29 lines code will take 1.45 seconds. 
+Here is CBC's estimate:
+29 lines code will take 4.234 seconds.
+```
+
+### 深入探讨函数指针
+
+```cpp
+#include<iostream>
+using namespace std;
+
+const double *f1(const double *pa, int n);
+const double *f2(const double *pa, int n);
+const double *f3(const double *pa, int n);
+
+int main(void)
+{
+    double ap[3] = {1112.3, 1542.6, 2227.9};
+
+    //part1
+    //p1(p2): pointer to a function
+    const double *(*p1)(const double *, int) = f1;                     //(*p1)代替函数名
+    auto p2 = f2;
+    cout << "********PART1********" << endl;
+    cout << "Address         Value" << endl;
+    cout << (*p1)(ap, 3) << ":       " << *(*p1)(ap, 3) << endl;       //(*p1)(ap, 3) == p1(ap, 3) == f1(ap, 3)
+    cout << p2(ap, 3) << ":       " << *p2(ap, 3) << endl;
+
+    //part2
+    //pa(pb) is an array of pointers
+    const double *(*pa[3])(const double *, int) = {f1, f2, f3};
+    auto pb = pa;
+    cout << endl;
+    cout << "********PART2********" << endl;
+    cout << "Address         Value" << endl;
+    for (int i = 0; i < 3; i++)
+    {
+        cout << pa[i](ap, 3) << ":       " << *pa[i](ap, 3) << endl;
+    }
+    for (int i = 0; i < 3;i++)
+    {
+        cout << pb[i](ap, 3) << ":       " << *pb[i](ap, 3) << endl;
+    }
+
+    //part3
+    //pc(pd) is a pointer to the array(pa) of three elements(funstion pointers)
+    auto pc = &pa;
+    const double *(*(*pd)[3])(const double *, int) = &pa;
+    cout << endl;
+    cout << "********PART3********" << endl;
+    cout << "Address         Value" << endl;
+    cout << (*pc)[0](ap, 3) << ":       " << *(*pc)[0](ap, 3) << endl; //(*pc) == pa
+    const double *pdb = (*pd)[1](ap, 3);
+    cout << pdb << ":       " << *pdb << endl;
+    //cout << (*pd)[2](ap, 3) << ":       " << *(*pd)[2](ap, 3) << endl;
+    cout << (*(*pd)[2])(ap, 3) << ":       " << *(*(*pd)[2])(ap, 3) << endl;
+
+    return 0;
+}
+
+//返回数组第一个元素的地址
+const double *f1(const double *pa, int n)
+{
+    return pa;
+}
+
+//返回数组第二个元素的地址
+const double *f2(const double *pa, int n)
+{
+    return pa + 1;
+}
+
+//返回数组第三个元素的地址
+const double *f3(const double *pa, int n)
+{
+    return pa + 2;
+}
+```
+输出结果：
+```cpp
+********PART1******** 
+Address         Value 
+0x61fdc0:       1112.3
+0x61fdc8:       1542.6
+
+********PART2******** 
+Address         Value 
+0x61fdc0:       1112.3
+0x61fdc8:       1542.6
+0x61fdd0:       2227.9
+0x61fdc0:       1112.3
+0x61fdc8:       1542.6
+0x61fdd0:       2227.9
+
+********PART3********
+Address         Value
+0x61fdc0:       1112.3
+0x61fdc8:       1542.6
+0x61fdd0:       2227.9
+```
+
+## 复习题
+
+![](2023-02-28-23-04-44.png)
+
+1. 函数的定义；函数的调用；函数的原型
+2. 函数原型
+   ```cpp
+   void igor(void);
+   float tofu(int);
+   double mpg(double, double);
+   long summation(long arr[], int n);
+   double doctor(const char*str);
+   void ofcourse(boss bs);
+   char * plot(map *pm);
+   ```
+3. ```cpp
+   void set_array(int arr[], int size, int n)
+   {
+       for(int i = 0; i < size; i++)
+           arr[i] = n;
+   }
+   ```
