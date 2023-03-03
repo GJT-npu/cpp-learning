@@ -14,13 +14,9 @@ void set_box(box *pa);
 
 int main(void)
 {
-    box abc = {"hab", 10, 27, 23, 29};
-
-    show_box(abc);
+    box abc = {"hab", 3, 4, 5};
 
     set_box(&abc);
-
-    cout << endl;
     show_box(abc);
 
     return 0;
@@ -28,11 +24,11 @@ int main(void)
 
 void show_box(box abc)
 {
-    cout << abc.maker << endl;
-    cout << abc.height << endl;
-    cout << abc.width << endl;
-    cout << abc.length << endl;
-    cout << abc.volume << endl;
+    cout << "maker: " << abc.maker << endl;
+    cout << "height: " << abc.height << endl;
+    cout << "width: " << abc.width << endl;
+    cout << "length: " << abc.length << endl;
+    cout << "volume: " << abc.volume << endl;
 }
 
 void set_box(box *pa)

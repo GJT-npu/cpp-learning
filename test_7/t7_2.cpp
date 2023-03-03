@@ -1,31 +1,69 @@
 #include<iostream>
 using namespace std;
 
+const int MAX = 10;
+
+int fill_golf(double arr[], int n);
+void show_golf(double arr[], int n);
+double average_golf(double arr[], int n);
+
 int main(void)
 {
-    double arr[10] = {0};
-    int i = 0;
-    double total = 0;
+    double golf[MAX];
 
-    cout << "Enter the scores of golf(up to 10, 'q' to quit): ";
-    while(cin >> arr[i])
+    int size = fill_golf(golf, MAX);
+
+    if (size > 0)
     {
-        i++;
-        if (i < 10)
-            cout << "Enter again" << i + 1 << ": ";
-        else
-            break;
+        show_golf(golf, size);
+        cout << "Average:" << average_golf(golf, size) << endl;
     }
-
-    cout << "The scores are: ";
-
-    for (int j = 0; j < i; j++)
-    {
-        total += arr[j];
-        cout << arr[j] << " ";
-    }
-
-    cout << "\nThe avarage is " << total / i << endl;
+    else
+        cout << "There is no scores!" << endl;
 
     return 0;
+}
+
+int fill_golf(double arr[], int n)
+{
+    int i = 0;
+    double temp;
+    for (i = 0; i < MAX; i++)
+    {
+        cout << "Enter golf score, NO." << i + 1 << ": ";
+        cin >> temp;
+        if(!cin)
+        {
+            cin.clear();
+            while(cin.get() != '\n')
+                ;
+            cout << "Invailed input, terminate." << endl;
+            break;
+        }
+        else if(temp < 0)
+            break;
+        else
+            arr[i] = temp;
+    }
+    return i;
+}
+
+void show_golf(double arr[], int n)
+{
+    cout << "GOLF RESULT : ";
+    for (int i = 0; i < n; i++)
+        cout << arr[i] << " ";
+    cout << endl;
+}
+
+double average_golf(double arr[], int n)
+{
+    double average, sum = 0;
+
+    for (int i = 0; i < n; i++)
+        sum += arr[i];
+
+    average = sum / n;
+
+    return average;
 }

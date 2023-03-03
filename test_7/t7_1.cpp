@@ -1,6 +1,6 @@
 #include<iostream>
 using namespace std;
-double harmonic_average(int x, int y);
+double harmonic_average(double x, double y);
 
 int main(void)
 {
@@ -25,7 +25,7 @@ int main(void)
     return 0;
 }
 
-double harmonic_average(int x, int y)
+double harmonic_average(double x, double y)
 {
     return 2.0 * x * y / (x + y);
 }
